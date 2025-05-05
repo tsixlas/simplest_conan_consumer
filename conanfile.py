@@ -30,11 +30,6 @@ class simplest_conanRecipe(ConanFile):
     def package(self):
         self.cmake.install()
 
-    def package_info(self):
-        self.cpp_info.names["cmake_find_package"] = self.name
-        self.cpp_info.libs = [self.name]
-        self.cpp_info.system_libs.append("simplest_conan::simplest_conan")
-
     def generate(self):
         for dep in self.dependencies.values():
             for folder in dep.cpp_info.libdirs:
