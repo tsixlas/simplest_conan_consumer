@@ -1,10 +1,10 @@
 from os import path
 from conan import ConanFile
-from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
+from conan.tools.cmake import CMake
 from conan.tools.files import copy
 
 
-class simplest_conanRecipe(ConanFile):
+class SimplestConanRecipe(ConanFile):
     name = "simplest_conan_consumer"
     version = "0.1"
     generators = "CMakeDeps", "CMakeToolchain"
@@ -12,9 +12,8 @@ class simplest_conanRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "*.cpp", "*.h", ".so"
     package_type = "application"
 
-    requires = [
-        "simplest_conan/0.3"
-    ]
+    def requirements(self):
+        self.requires("simplest_conan/0.3", transitive_headers=False)
 
     def layout(self):
         build_path = path.join("build_" + str(self.settings.arch), str(self.settings.build_type))
