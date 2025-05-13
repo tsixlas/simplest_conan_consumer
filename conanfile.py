@@ -9,11 +9,13 @@ class SimplestConanRecipe(ConanFile):
     version = "0.1"
     generators = "CMakeDeps", "CMakeToolchain"
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "CMakeLists.txt", "*.cpp", "*.h", ".so"
+    exports_sources = "CMakeLists.txt", "*.cpp", "*.h"
     package_type = "application"
 
     def requirements(self):
         self.requires("simplest_conan/0.3", transitive_headers=False)
+
+        self.test_requires("gtest/1.16.0")
 
     def layout(self):
         build_path = path.join("build_" + str(self.settings.arch), str(self.settings.build_type))
@@ -25,6 +27,7 @@ class SimplestConanRecipe(ConanFile):
         self.cmake = CMake(self)
         self.cmake.configure()
         self.cmake.build()
+        self.cmake.test()
 
     def package(self):
         self.cmake.install()
